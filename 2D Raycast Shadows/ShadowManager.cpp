@@ -134,10 +134,6 @@ bool doIntersect(Point p1, Point q1, Point p2, Point q2)
 	return false; // Doesn't fall in any of the above cases
 }
 
-//--------------------------------------------------------------------
-
-
-
 typedef double coord2_t;  // must be big enough to hold 2*max(|coordinate|)^2
 // 2D cross product of OA and OB vectors, i.e. z-component of their 3D cross product.
 // Returns a positive value, if OAB makes a counter-clockwise turn,
@@ -177,8 +173,9 @@ std::vector<sf::Vector2f> convex_hull(std::vector<sf::Vector2f>& P)
 	H.resize(k);
 	return H;
 }
+//-------------------------------------------------------------------------------
 
-
+const float ShadowManager::shadowOffset = 10.f;
 
 ShadowManager::ShadowManager(sf::View* view):
 pView(view)
@@ -286,7 +283,7 @@ void ShadowManager::updateShadows(const sf::Vector2f& newLightPos)
 				sf::Vector2f edgeIntersection = GetIntersectionPoint(lightPos, minimalIntersection, shape->getPoint(j), shape->getPoint(j+1));
 				if (isPointOnLineSegment(edgeIntersection, shape->getPoint(j), shape->getPoint(j+1)))
 				{
-					sf::Vector2f offset = Normalize(v-lightPos) * 20.f;
+					sf::Vector2f offset = Normalize(v-lightPos) * shadowOffset; ///< offset the shadow so the object can be partly seen
 					possiblePoints.push_back(edgeIntersection + offset);
 				}
 				
@@ -294,7 +291,7 @@ void ShadowManager::updateShadows(const sf::Vector2f& newLightPos)
 			sf::Vector2f edgeIntersection = GetIntersectionPoint(lightPos, minimalIntersection, shape->getPoint(numVerticies-1), shape->getPoint(0));
 			if (isPointOnLineSegment(edgeIntersection, shape->getPoint(numVerticies-1), shape->getPoint(0)))
 			{
-				sf::Vector2f offset = Normalize(v-lightPos) * 20.f;
+				sf::Vector2f offset = Normalize(v-lightPos) * shadowOffset; ///< offset the shadow so the object can be partly seen
 				possiblePoints.push_back(edgeIntersection + offset);
 			}
 			

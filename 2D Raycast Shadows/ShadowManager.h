@@ -26,4 +26,7 @@ private:
 	sf::View*						pView;
 	
 	sf::Vector2f					lightPos;
+
+	static const float				shadowOffset; ///< offset the shadow so the object can be partly seen
+
 };

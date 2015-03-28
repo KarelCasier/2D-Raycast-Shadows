@@ -53,7 +53,6 @@ Game::Game()
     s1->setPoint(1, sf::Vector2f(250,200));
     s1->setPoint(2, sf::Vector2f(250,250));
     s1->setPoint(3, sf::Vector2f(200,250));
-	s1->setFillColor(sf::Color(80, 1, 137));
 	shapes.push_back(s1);
 	mShadowManager.addShape(s1);
 	
@@ -63,7 +62,6 @@ Game::Game()
 	s2->setPoint(1, sf::Vector2f(510,610));
 	s2->setPoint(2, sf::Vector2f(430,550));
 	s2->setPoint(3, sf::Vector2f(400,520));
-	s2->setFillColor(sf::Color(80, 1, 137));
 	shapes.push_back(s2);
 	mShadowManager.addShape(s2);
 	
@@ -73,7 +71,6 @@ Game::Game()
 	topWall->setPoint(1, sf::Vector2f(2 * WINDOWWIDTH + 10, -10));
 	topWall->setPoint(2, sf::Vector2f(2 * WINDOWWIDTH + 10, 0));
 	topWall->setPoint(3, sf::Vector2f(-10,0));
-	topWall->setFillColor(sf::Color(80, 1, 137));
 	shapes.push_back(topWall);
 	mShadowManager.addShape(topWall);
 	
@@ -88,10 +85,28 @@ Game::Game()
 		b4->setPoint(1, pos + sf::Vector2f(20,0) + offset * (float)i);
 		b4->setPoint(2, pos + sf::Vector2f(20,20) + offset * (float)i);
 		b4->setPoint(3, pos + sf::Vector2f(0,20) + offset * (float)i);
-		b4->setFillColor(sf::Color(80, 1, 137));
 		shapes.push_back(b4);
 		mShadowManager.addShape(b4);
 	}
+
+	sf::ConvexShape* circle = createCircle(6, 25, sf::Vector2f(0, 500));
+	shapes.push_back(circle);
+	mShadowManager.addShape(circle);
+}
+
+sf::ConvexShape* Game::createCircle(int numPts, int r, sf::Vector2f location)
+{
+	sf::ConvexShape* circle = new sf::ConvexShape;
+	circle->setPointCount(numPts);
+	float angleIncrement = 2 * 3.14159f / numPts;
+	float currentAngle = 0;
+	for (int i = 0; i < numPts; ++i)
+	{
+		circle->setPoint(i, sf::Vector2f(location.x + r * std::cos(currentAngle), location.y + r * std::sin(currentAngle)));
+		currentAngle += angleIncrement;
+	}
+
+	return circle;
 }
 
 void Game::run()

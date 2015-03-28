@@ -41,6 +41,8 @@ private:
     void					render();
     
     void					updateStatistics(sf::Time elapsedTime);
+
+	sf::ConvexShape*		createCircle(int numPts, int radius, sf::Vector2f location);
     
 private:
     static Game*			s_pInstance;
